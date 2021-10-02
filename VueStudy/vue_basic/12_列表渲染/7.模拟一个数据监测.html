@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟一个数据监测</title>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+    let myData = {
+        name:'尚硅谷',
+        address:'北京'
+    };
+
+    // 效率低
+    /* var tmp = myData.name;
+    setInterval(() => {
+        if (myData.name!==tmp){
+            console.log("name属性改变了");
+            tmp = myData.name;
+        }
+    }, 100); */
+
+    // 直接在myData上定义getter、setter，会递归调用，有问题
+    /* Object.defineProperty(myData, 'name', {
+        get(){
+            console.log(this==myData);
+            return myData.name;
+        },
+        set(val){
+            myData.name = val;
+        }
+    }); */
+
+    // 没有直接在myData上定义，而是另外返回了一个Observer对象，在Observer对象上定义的setter和getter，
+    // 但也有问题，myData本身没有发生变化，这点课程上并没解决，后续有空自己再看看
+    const vm = new MyVue({
+        data:myData
+    });
+
+    function MyVue(options) {
+        var data = options.data;
+        const obs = new Observer(data);
+        // 下面是有问题的（options.data没有发生变化，即myData本身其实没变，而Vue里的是发生变化了的，
+        // 这部分课程里没说清楚，后续有空自己再看看）
+        this._data = options.data = obs;
+    }
+
+    function Observer(obj) {
+        // 汇总对象中所有的属性形成一个数组
+        const keys = Object.keys(obj);
+        // 遍历
+        keys.forEach(k=>{
+            Object.defineProperty(this,k,{
+                get(){
+                    return obj[k];
+                },
+                set(val){
+                    console.log(`${k}被改了，我要去解析模板，生成虚拟DOM.....我要开始忙了`);
+                    obj[k]=val;
+                }
+            });
+        });
+    }
+</script>
+</html>
