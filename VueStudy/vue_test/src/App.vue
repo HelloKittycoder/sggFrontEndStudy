@@ -7,10 +7,10 @@
 
       <!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传递数据（第一种写法，使用@或v-on）
       v-on:atguigu.once 或 @atguigu.once 表示只调一次 -->
-      <Student @atguigu="getStudentName"/>
+      <Student @atguigu="getStudentName" @demo="m1"/>
 
       <!-- 通过父组件给子组件绑定一个自定义事件实现：子给父传递数据（第二种写法，使用ref） -->   
-      <Student ref="student"/>
+      <!-- <Student ref="student"/> -->
   </div>
 </template>
 
@@ -32,11 +32,14 @@
                 console.log('App收到了学校名：')
             },
             getStudentName(name,...a){
-                console.log('App收到了学校名：', name, a)
+                console.log('App收到了学生名：', name, a)
+            },
+            m1(){
+                console.log('demo事件被触发了！')
             }
         },
         mounted() {
-            this.$refs.student.$on('atguigu',this.getStudentName) // 绑定自定义事件
+            // this.$refs.student.$on('atguigu',this.getStudentName) // 绑定自定义事件
             // this.$refs.student.$once('atguigu',this.getStudentName) // 绑定自定义事件（一次性）
         },
     }
