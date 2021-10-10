@@ -3,10 +3,8 @@
     <div class="todo-container">
       <div class="todo-wrap">
         <MyHeader @addTodo="addTodo"/>
-        <MyList :todos="todos"
-          :checkTodo="checkTodo"
-          :deleteTodo="deleteTodo"/>
-        <MyFooter :todos="todos"  @checkAllTodo="checkAllTodo"
+        <MyList :todos="todos"/>
+        <MyFooter :todos="todos" @checkAllTodo="checkAllTodo"
           @clearFinishedTodo="clearFinishedTodo"/>
       </div>
     </div>
