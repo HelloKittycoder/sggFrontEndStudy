@@ -784,7 +784,7 @@ module.exports = {
         path:'/home/message/detail',
         query:{
             id:666,
-            title:你好
+            title:'你好'
         }
     }">跳转</router-link>
     ```
@@ -795,4 +795,3 @@ module.exports = {
     $route.query.id
     $route.query.title
     ```
-s
