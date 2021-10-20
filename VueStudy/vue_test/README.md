@@ -929,3 +929,36 @@ module.exports = {
 2. 浏览器的历史记录有两种写入方式：分别为```push```和```replace```，```push```是追加历史记录，```replace```是替换当前记录。路由跳转时默认为```push```
 3. 如何开启```replace```模式：```<router-link replace ...>News</router-link>```
 
+### 9.编程式路由导航
+
+1. 作用：不借助```<router-link>```实现路由跳转，让路由跳转更加灵活
+
+2. 具体编码：
+
+    ```js
+    // push方式跳到指定路由
+    this.$router.push({
+        name:'xiangqing',
+        query:{
+            id:m.id,
+            title:m.title
+        }
+    })
+
+    // replace方式跳到指定路由
+    this.$router.replace({
+        name:'xiangqing',
+        query:{
+            id:m.id,
+            title:m.title
+        }
+    })
+
+    this.$router.back() // 前进
+    this.$router.forward() // 后退
+    /**
+     * n为整数，可前进也可后退，正数表示前进|n|步，负数表示后退|n|步，
+     * go()或go(0)表示刷新当前页
+     */
+    this.$router.go(n)
+    ```
