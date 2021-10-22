@@ -1023,3 +1023,24 @@ module.exports = {
         }
     })
     ```
+
+4. 独享守卫：
+
+    ```js
+    beforeEnter:(to, from, next)=>{
+        console.log('beforeEnter', from, to)
+        // 如果访问的是News或Message组件，需要看下school属性是不是“尚硅谷”，是则能正常访问
+        // if (to.name == 'xinwen' || to.name == 'xiaoxi') {
+        if (to.meta.isAuth) {
+            if (localStorage.getItem("school") == 'atguigu') {
+                // document.title = to.meta.title || '硅谷系统'
+                next()
+            } else {
+                alert('学校名不对，无权限查看！')
+            }
+        } else {
+            // document.title = to.meta.title || '硅谷系统'
+            next()
+        }
+    }
+    ```
