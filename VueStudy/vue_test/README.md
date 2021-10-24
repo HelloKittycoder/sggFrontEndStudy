@@ -1055,3 +1055,54 @@ module.exports = {
     beforeRouteLeave(to, from, next){
     },
     ```
+
+### 13.路由器的两种工作模式
+
+1. 对于一个url来说，什么是hash值？—— #及其后面的内容就是hash值
+2. hash值不会包含在HTTP请求中，即：hash值不会带给服务器
+3. hash模式：
+    1. 地址中永远带着#号，不美观
+    2. 若以后将地址通过第三方手机app分享，若app校验严格，则地址会被标记为不合法
+    3. 兼容性较好
+4. history模式：
+    1. 地址干净、美观
+    2. 兼容性和hash模式相比略差
+    3. 应用部署上线时需要后端人员支持，解决刷新页面服务端404的问题
+
+> 关于 4.3. 中的问题，是在vue打包部署后会出现的问题
+
+为了模拟这个问题，在vue项目设置mode为history，并运行 npm run build
+
+将打包好的文件放到express搭好的服务器上
+
+下面1-6是在模拟问题，7是解决问题
+
+（用express简单搭一个服务器：
+1. 新建文件夹demo
+2. 进入demo文件夹，执行npm init，输入名字atguigu_test_server，之后一直回车即可
+3. 安装express，执行npm i express
+4. 在demo目录下创建一个文件夹static，里面放打包后的vue项目文件
+5. 编写服务端js，就放在demo目录下，server.js
+    ```js
+    const express = require('express')
+    // const history = require('connect-history-api-fallback')
+
+    const app = express()
+    // app.use(history())
+    app.use(express.static(__dirname+'/static'))
+
+    app.get('/person',(req,res)=>{
+        res.send({
+            name:'tom',
+            age:18
+        })
+    })
+
+    app.listen(5005,err=>{
+        if (!err) console.log('服务器启动成功了！')
+    })
+    ```
+6. 页面访问 http://localhost:5005 就可以了
+7. 如何解决刷新页面404的问题？
+安装connect-history-api-fallback，执行命令 npm i connect-history-api-fallback，然后把上面server.js中被注释掉的部分解开即可
+）
